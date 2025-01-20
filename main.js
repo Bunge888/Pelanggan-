@@ -1,3 +1,5 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js'
+
 import {
   getFirestore,
   collection,
@@ -9,15 +11,54 @@ import {
   updateDoc,
   query,
   orderBy
-} from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCbqYHEkbK8rlmTEvT7IRxamrueBVOvf2o",
-  authDomain: "insan-cemerlang-25a53.firebaseapp.com",
-  projectId: "insan-cemerlang-25a53",
-  storageBucket: "insan-cemerlang-25a53.appspot.com",
-  messagingSenderId: "383282706725",
-  appId: "1:383282706725:web:bf9fd56cea37cb3a0fc2cc",
-  measurementId: "G-31EQF6PDVN"
+  apiKey: "AIzaSyDFYmmVvk-jLZIeAdYKiTwVw2jqd4VINFA",
+  authDomain: "insan-cemerlang.firebaseapp.com",
+  projectId: "insan-cemerlang",
+  storageBucket: "insan-cemerlang.appspot.com",
+  messagingSenderId: "579109661574",
+  appId: "1:579109661574:web:4a7cd4060f70eded945a07"
 };
 
+//inisialisasi firebase
+const aplikasi = initializeApp(firebaseConfig)
+const basisdata = getFirestore(aplikasi)
+
+// fungsi ambil daftar pelanggan
+export async function ambilDaftarPelanggan() {
+  const refDokumen = collection(basisdata, "Pelanggan");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasilKueri = [];
+  cuplikanKueri.forEach((dokumen) => {
+    hasilKueri.push({
+      id: dokumen.id,
+      nama: dokumen.data().nama,
+      alamat: dokumen.data().alamat,
+      nohape: dokumen.data().nohape
+    })
+  })
+
+  return hasilKueri;
+}
+
+// fungsi menambah data pelanggan
+export async function tambahPelanggan(nama, alamat, nohape) {
+  try {
+    // menyimpan data ke firebase
+    const refDokumen = await addDoc(collection(basisdata, "Pelanggan"), {
+      nama: nama,
+      alamat: alamat,
+      nohape: nohape
+    })
+
+    // menampilkan pesan berhasil
+    console.log('berhasil menyimpan data pelanggan')
+  } catch (error) {
+    // menampilkan pesan gagal 
+    console.log('gagal menyimpan data pelanggan')
+  }
+}
