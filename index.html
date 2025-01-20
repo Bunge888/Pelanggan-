@@ -14,7 +14,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="m-4">
   <h1>Daftar Pelanggan Toko Incer</h1>
 
   <table class="table table-striped table-bordered" id="daftar-pelanggan">
@@ -56,7 +56,7 @@
         )
         nomor = nomor + 1
         
-        $( '#total').html("jumlah pelanggan : " + (nomor -1))
+        $( '#total').html("jumlah pelanggan!=  : " + (nomor -1))
       })
 
       $('.tombol-hapus').click(async function() {
